@@ -19,6 +19,80 @@
     justify-content: center;
   }
 
+  /* ── SAFETY MODAL ── */
+  #safety-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(30, 18, 10, 0.55);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  #safety-modal {
+    background: #f0ede8;
+    border-radius: 14px;
+    padding: 40px 36px;
+    max-width: 480px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(30,18,10,0.25);
+  }
+
+  #safety-modal .modal-icon {
+    width: 44px;
+    height: 44px;
+    margin: 0 auto 18px;
+    stroke: #8b1a1a;
+    fill: none;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  #safety-modal h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #8b1a1a;
+    margin-bottom: 16px;
+  }
+
+  #safety-modal .divider-thin {
+    width: 40px;
+    height: 1px;
+    background: #c9b9a8;
+    margin: 0 auto 20px;
+  }
+
+  #safety-modal p {
+    font-size: 0.88rem;
+    line-height: 1.85;
+    color: #3d2b1f;
+    font-weight: 400;
+    margin-bottom: 28px;
+  }
+
+  #safety-modal button {
+    background: #8b1a1a;
+    color: #f0ede8;
+    border: none;
+    border-radius: 8px;
+    padding: 14px 32px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: 'Playfair Display', serif;
+    transition: background 0.2s;
+  }
+
+  #safety-modal button:hover { background: #6e1414; }
+
   /* ── DEVICE SWITCHER ── */
   #device-switcher {
     position: fixed;
@@ -43,15 +117,10 @@
   }
 
   .device-btn:hover { border-color: #8b1a1a; }
-
-  .device-btn.active {
-    border-color: #8b1a1a;
-    background: #8b1a1a;
-  }
+  .device-btn.active { border-color: #8b1a1a; background: #8b1a1a; }
 
   .device-btn svg {
-    width: 18px;
-    height: 18px;
+    width: 18px; height: 18px;
     stroke: #8b5a4a;
     fill: none;
     stroke-width: 1.8;
@@ -74,7 +143,7 @@
   }
 
   body.desktop #setup { max-width: 780px; }
-  body.mobile #setup  { max-width: 420px; padding: 40px 20px; }
+  body.mobile  #setup { max-width: 420px; padding: 40px 20px; }
 
   h1 {
     font-size: 2.2rem;
@@ -96,12 +165,7 @@
   }
 
   /* Preset Buttons */
-  .presets {
-    display: flex;
-    gap: 20px;
-    width: 100%;
-  }
-
+  .presets { display: flex; gap: 20px; width: 100%; }
   body.mobile .presets { flex-direction: column; gap: 12px; }
 
   .preset-btn {
@@ -118,13 +182,7 @@
   }
 
   .preset-btn:hover { border-color: #8b1a1a; background: #f5f0ea; }
-
-  .preset-btn.active {
-    border-color: #8b1a1a;
-    background: #8b1a1a;
-    color: #f0ede8;
-  }
-
+  .preset-btn.active { border-color: #8b1a1a; background: #8b1a1a; color: #f0ede8; }
   body.mobile .preset-btn { padding: 16px 14px; }
 
   .preset-btn .preset-icon {
@@ -159,7 +217,6 @@
     color: #8b5a4a;
     line-height: 1.5;
     font-weight: 400;
-    letter-spacing: 0.3px;
   }
 
   .preset-btn.active .preset-desc { color: #e8c8b8; }
@@ -169,7 +226,6 @@
 
   /* Controls */
   .controls { width: 100%; display: flex; flex-direction: column; gap: 22px; }
-
   .control-row { display: flex; flex-direction: column; gap: 9px; }
 
   .control-label {
@@ -200,9 +256,7 @@
     cursor: pointer;
   }
 
-  body.mobile input[type=range]::-webkit-slider-thumb {
-    width: 22px; height: 22px;
-  }
+  body.mobile input[type=range]::-webkit-slider-thumb { width: 22px; height: 22px; }
 
   /* Timer Buttons */
   .timer-options { display: flex; gap: 10px; }
@@ -222,29 +276,15 @@
   }
 
   body.mobile .timer-btn { padding: 12px 4px; font-size: 0.85rem; }
-
   .timer-btn:hover { border-color: #8b1a1a; color: #3d2b1f; }
   .timer-btn.active { border-color: #8b1a1a; background: #8b1a1a; color: #f0ede8; }
 
   /* Ton Toggle */
-  .toggle-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+  .toggle-row { display: flex; justify-content: space-between; align-items: center; }
 
-  .toggle-label {
-    font-size: 0.82rem;
-    color: #8b5a4a;
-    letter-spacing: 1px;
-  }
+  .toggle-label { font-size: 0.82rem; color: #8b5a4a; letter-spacing: 1px; }
 
-  .toggle {
-    position: relative;
-    width: 44px; height: 24px;
-    cursor: pointer;
-  }
-
+  .toggle { position: relative; width: 44px; height: 24px; cursor: pointer; }
   .toggle input { opacity: 0; width: 0; height: 0; }
 
   .toggle-slider {
@@ -268,33 +308,7 @@
   .toggle input:checked + .toggle-slider { background: #8b1a1a; }
   .toggle input:checked + .toggle-slider:before { transform: translateX(20px); }
 
-  /* Start Button */
-  #startBtn {
-    width: 100%;
-    padding: 18px;
-    border: none;
-    border-radius: 10px;
-    background: #8b1a1a;
-    color: #f0ede8;
-    font-size: 1rem;
-    font-weight: 600;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: all 0.25s;
-    font-family: 'Playfair Display', serif;
-    box-shadow: 0 4px 20px rgba(139,26,26,0.2);
-  }
-
-  body.mobile #startBtn { padding: 20px; font-size: 1rem; }
-
-  #startBtn:hover {
-    background: #6e1414;
-    transform: translateY(-1px);
-    box-shadow: 0 6px 28px rgba(139,26,26,0.3);
-  }
-
-  /* ── ROTATE HINT ── */
+  /* Rotate hint */
   #rotate-hint {
     display: none;
     align-items: center;
@@ -316,6 +330,32 @@
     stroke-linecap: round;
     stroke-linejoin: round;
     flex-shrink: 0;
+  }
+
+  /* Start Button */
+  #startBtn {
+    width: 100%;
+    padding: 18px;
+    border: none;
+    border-radius: 10px;
+    background: #8b1a1a;
+    color: #f0ede8;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.25s;
+    font-family: 'Playfair Display', serif;
+    box-shadow: 0 4px 20px rgba(139,26,26,0.2);
+  }
+
+  body.mobile #startBtn { padding: 20px; }
+
+  #startBtn:hover {
+    background: #6e1414;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 28px rgba(139,26,26,0.3);
   }
 
   /* ── SESSION SCREEN ── */
@@ -358,8 +398,7 @@
   #progress-wrap {
     position: fixed;
     bottom: 0; left: 0;
-    width: 100%;
-    height: 3px;
+    width: 100%; height: 3px;
     background: #2a1a14;
   }
 
@@ -406,7 +445,6 @@
     color: #3d2b1f;
     letter-spacing: 1px;
     line-height: 2;
-    font-family: 'Playfair Display', serif;
   }
 
   body.mobile #endscreen p { font-size: 1.2rem; }
@@ -419,8 +457,7 @@
   }
 
   #endscreen .ornament {
-    width: 60px;
-    height: 1px;
+    width: 60px; height: 1px;
     background: #c9b9a8;
     margin: 4px auto;
   }
@@ -428,16 +465,32 @@
 </head>
 <body class="desktop">
 
+<!-- ══════════ SAFETY MODAL ══════════ -->
+<div id="safety-overlay">
+  <div id="safety-modal">
+    <svg class="modal-icon" viewBox="0 0 24 24">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      <path d="M12 8v4M12 16h.01"/>
+    </svg>
+    <h3>Sicherheitshinweis</h3>
+    <div class="divider-thin"></div>
+    <p>
+      Dieses Tool ist <strong>nicht geeignet</strong> bei Epilepsie, neurologischen Erkrankungen oder anderen Erkrankungen, bei denen Lichtreize oder schnelle visuelle Bewegungen Beschwerden auslösen können.<br><br>
+      Bei Unsicherheit bitte vorab einen Arzt oder eine Ärztin konsultieren.<br><br>
+      Dieses Tool ersetzt keine professionelle therapeutische Behandlung.
+    </p>
+    <button onclick="closeSafety()">Ich habe verstanden</button>
+  </div>
+</div>
+
 <!-- ── DEVICE SWITCHER ── -->
 <div id="device-switcher">
-  <!-- Desktop icon -->
   <button class="device-btn active" id="btnDesktop" onclick="setMode('desktop')" title="Desktop-Ansicht">
     <svg viewBox="0 0 24 24">
       <rect x="2" y="3" width="20" height="14" rx="2"/>
       <path d="M8 21h8M12 17v4"/>
     </svg>
   </button>
-  <!-- Mobile icon -->
   <button class="device-btn" id="btnMobile" onclick="setMode('mobile')" title="Handy-Ansicht">
     <svg viewBox="0 0 24 24">
       <rect x="7" y="2" width="10" height="20" rx="2"/>
@@ -476,9 +529,9 @@
     <div class="control-row">
       <div class="control-label">
         <span>Geschwindigkeit</span>
-        <span id="speedVal">52</span>
+        <span id="speedVal">62</span>
       </div>
-      <input type="range" id="speedSlider" min="4" max="80" value="52"
+      <input type="range" id="speedSlider" min="4" max="120" value="62"
         oninput="document.getElementById('speedVal').textContent=this.value">
     </div>
 
@@ -510,7 +563,6 @@
     </div>
   </div>
 
-  <!-- Rotate hint – only visible in mobile mode -->
   <div id="rotate-hint">
     <svg viewBox="0 0 24 24">
       <path d="M4 12a8 8 0 0 1 8-8"/>
@@ -552,14 +604,20 @@ let startTime = null;
 let totalDuration = 0;
 let ballX = 0;
 let direction = 1;
-let speed = 52;
+let speed = 62;
 let ballSize = 40;
 const SIZES = { 1: 28, 2: 40, 3: 58 };
 const SIZE_LABELS = { 1: 'S', 2: 'M', 3: 'L' };
 let audioCtx = null;
 let lastDir = 1;
+let lastTimestamp = null; // for time-based animation
 
-// ── Auto-detect device on load ──
+// ── Safety Modal ──
+function closeSafety() {
+  document.getElementById('safety-overlay').style.display = 'none';
+}
+
+// ── Auto-detect device ──
 window.addEventListener('load', () => {
   const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) || window.innerWidth < 600;
   setMode(isMobile ? 'mobile' : 'desktop');
@@ -575,11 +633,11 @@ function selectPreset(type) {
   const speedSlider = document.getElementById('speedSlider');
   const speedVal = document.getElementById('speedVal');
   if (type === 'aufloesung') {
-    speedSlider.value = 52; speedVal.textContent = 52;
+    speedSlider.value = 80; speedVal.textContent = 80;
     document.getElementById('presetAufloesung').classList.add('active');
     document.getElementById('presetIntegration').classList.remove('active');
   } else {
-    speedSlider.value = 12; speedVal.textContent = 12;
+    speedSlider.value = 20; speedVal.textContent = 20;
     document.getElementById('presetIntegration').classList.add('active');
     document.getElementById('presetAufloesung').classList.remove('active');
   }
@@ -653,6 +711,7 @@ function startSession() {
 
   totalDuration = timerSeconds * 1000;
   startTime = performance.now();
+  lastTimestamp = null;
   ballX = window.innerWidth / 2;
   direction = 1;
   lastDir = 1;
@@ -662,7 +721,7 @@ function startSession() {
   document.getElementById('session').classList.add('active');
   document.getElementById('progress-bar').style.width = '100%';
 
-  animate();
+  animFrame = requestAnimationFrame(animate);
   sessionTimer = setTimeout(endSession, totalDuration);
 }
 
@@ -670,13 +729,21 @@ function getTrackMargin() {
   return Math.round(ballSize * 2.5 + Math.round(ballSize * 0.35));
 }
 
-function animate() {
+function animate(timestamp) {
+  // Time-based movement: consistent speed on ALL devices
+  if (lastTimestamp === null) lastTimestamp = timestamp;
+  const delta = Math.min(timestamp - lastTimestamp, 50); // cap at 50ms to avoid jumps
+  lastTimestamp = timestamp;
+
   const container = document.getElementById('ball-container');
   const trackWidth = window.innerWidth;
   const margin = getTrackMargin();
   const minX = margin;
   const maxX = trackWidth - margin;
-  const px = 2 + (speed - 4) / (80 - 4) * 26;
+
+  // speed = pixels per second
+  const pixelsPerSecond = speed * 8;
+  const px = (pixelsPerSecond * delta) / 1000;
 
   ballX += direction * px;
 
