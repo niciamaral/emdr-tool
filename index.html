@@ -592,7 +592,7 @@ let ballX = 0;
 let direction = 1;
 let speed = 62;
 let ballSize = 40;
-const SIZES = { 1: 28, 2: 40, 3: 58 };
+const SIZES = { 1: 22, 2: 40, 3: 58 };
 const SIZE_LABELS = { 1: 'S', 2: 'M', 3: 'L' };
 let audioCtx = null;
 let lastDir = 1;
@@ -611,6 +611,15 @@ function setMode(mode) {
   document.body.className = mode;
   document.getElementById('btnDesktop').classList.toggle('active', mode === 'desktop');
   document.getElementById('btnMobile').classList.toggle('active', mode === 'mobile');
+
+  // Auto-adjust size for device
+  if (mode === 'mobile') {
+    document.getElementById('sizeSlider').value = 1;
+    document.getElementById('sizeVal').textContent = 'S';
+  } else {
+    document.getElementById('sizeSlider').value = 2;
+    document.getElementById('sizeVal').textContent = 'M';
+  }
 }
 
 function selectPreset(type) {
@@ -724,8 +733,9 @@ function animate(timestamp) {
   const minX = margin;
   const maxX = trackWidth - margin;
 
-  // speed = pixels per second, multiplier 22 for correct calibration
-  const pixelsPerSecond = speed * 22;
+  // Handy: 60% der Geschwindigkeit da kleinerer Bildschirm
+  const isMobile = document.body.classList.contains('mobile');
+  const pixelsPerSecond = speed * 22 * (isMobile ? 0.6 : 1);
   const px = (pixelsPerSecond * delta) / 1000;
 
   ballX += direction * px;
