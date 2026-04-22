@@ -42,8 +42,7 @@
   }
 
   #safety-modal .modal-icon {
-    width: 44px;
-    height: 44px;
+    width: 44px; height: 44px;
     margin: 0 auto 18px;
     stroke: #8b1a1a;
     fill: none;
@@ -62,8 +61,7 @@
   }
 
   #safety-modal .divider-thin {
-    width: 40px;
-    height: 1px;
+    width: 40px; height: 1px;
     background: #c9b9a8;
     margin: 0 auto 20px;
   }
@@ -96,16 +94,14 @@
   /* ── DEVICE SWITCHER ── */
   #device-switcher {
     position: fixed;
-    top: 16px;
-    right: 20px;
+    top: 16px; right: 20px;
     display: flex;
     gap: 6px;
     z-index: 100;
   }
 
   .device-btn {
-    width: 36px;
-    height: 36px;
+    width: 36px; height: 36px;
     border: 1.5px solid #c9b9a8;
     border-radius: 8px;
     background: #f0ede8;
@@ -164,7 +160,6 @@
     text-align: center;
   }
 
-  /* Preset Buttons */
   .presets { display: flex; gap: 20px; width: 100%; }
   body.mobile .presets { flex-direction: column; gap: 12px; }
 
@@ -221,10 +216,8 @@
 
   .preset-btn.active .preset-desc { color: #e8c8b8; }
 
-  /* Divider */
   .divider { width: 100%; border: none; border-top: 1px solid #c9b9a8; }
 
-  /* Controls */
   .controls { width: 100%; display: flex; flex-direction: column; gap: 22px; }
   .control-row { display: flex; flex-direction: column; gap: 9px; }
 
@@ -239,8 +232,7 @@
   .control-label span:last-child { color: #3d2b1f; font-weight: 500; }
 
   input[type=range] {
-    width: 100%;
-    height: 3px;
+    width: 100%; height: 3px;
     -webkit-appearance: none;
     background: #c9b9a8;
     border-radius: 2px;
@@ -258,7 +250,6 @@
 
   body.mobile input[type=range]::-webkit-slider-thumb { width: 22px; height: 22px; }
 
-  /* Timer Buttons */
   .timer-options { display: flex; gap: 10px; }
 
   .timer-btn {
@@ -279,17 +270,14 @@
   .timer-btn:hover { border-color: #8b1a1a; color: #3d2b1f; }
   .timer-btn.active { border-color: #8b1a1a; background: #8b1a1a; color: #f0ede8; }
 
-  /* Ton Toggle */
   .toggle-row { display: flex; justify-content: space-between; align-items: center; }
-
   .toggle-label { font-size: 0.82rem; color: #8b5a4a; letter-spacing: 1px; }
 
   .toggle { position: relative; width: 44px; height: 24px; cursor: pointer; }
   .toggle input { opacity: 0; width: 0; height: 0; }
 
   .toggle-slider {
-    position: absolute;
-    inset: 0;
+    position: absolute; inset: 0;
     background: #c9b9a8;
     border-radius: 24px;
     transition: 0.3s;
@@ -308,7 +296,6 @@
   .toggle input:checked + .toggle-slider { background: #8b1a1a; }
   .toggle input:checked + .toggle-slider:before { transform: translateX(20px); }
 
-  /* Rotate hint */
   #rotate-hint {
     display: none;
     align-items: center;
@@ -332,7 +319,6 @@
     flex-shrink: 0;
   }
 
-  /* Start Button */
   #startBtn {
     width: 100%;
     padding: 18px;
@@ -358,7 +344,7 @@
     box-shadow: 0 6px 28px rgba(139,26,26,0.3);
   }
 
-  /* ── SESSION SCREEN ── */
+  /* ── SESSION ── */
   #session {
     display: none;
     position: fixed;
@@ -465,7 +451,7 @@
 </head>
 <body class="desktop">
 
-<!-- ══════════ SAFETY MODAL ══════════ -->
+<!-- SAFETY MODAL -->
 <div id="safety-overlay">
   <div id="safety-modal">
     <svg class="modal-icon" viewBox="0 0 24 24">
@@ -483,7 +469,7 @@
   </div>
 </div>
 
-<!-- ── DEVICE SWITCHER ── -->
+<!-- DEVICE SWITCHER -->
 <div id="device-switcher">
   <button class="device-btn active" id="btnDesktop" onclick="setMode('desktop')" title="Desktop-Ansicht">
     <svg viewBox="0 0 24 24">
@@ -499,7 +485,7 @@
   </button>
 </div>
 
-<!-- ══════════ SETUP ══════════ -->
+<!-- SETUP -->
 <div id="setup">
   <div style="text-align:center">
     <h1>EMDR</h1>
@@ -577,7 +563,7 @@
   <button id="startBtn" onclick="startSession()">Session starten</button>
 </div>
 
-<!-- ══════════ SESSION ══════════ -->
+<!-- SESSION -->
 <div id="session" onclick="stopSession()">
   <div id="track">
     <div id="ball-container">
@@ -589,7 +575,7 @@
   <div id="stop-hint">Tippen zum Beenden</div>
 </div>
 
-<!-- ══════════ END SCREEN ══════════ -->
+<!-- END SCREEN -->
 <div id="endscreen">
   <p>Schließe die Augen –<br>atme tief ein und aus<br>und lass alles los.</p>
   <div class="ornament"></div>
@@ -610,14 +596,12 @@ const SIZES = { 1: 28, 2: 40, 3: 58 };
 const SIZE_LABELS = { 1: 'S', 2: 'M', 3: 'L' };
 let audioCtx = null;
 let lastDir = 1;
-let lastTimestamp = null; // for time-based animation
+let lastTimestamp = null;
 
-// ── Safety Modal ──
 function closeSafety() {
   document.getElementById('safety-overlay').style.display = 'none';
 }
 
-// ── Auto-detect device ──
 window.addEventListener('load', () => {
   const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) || window.innerWidth < 600;
   setMode(isMobile ? 'mobile' : 'desktop');
@@ -730,9 +714,8 @@ function getTrackMargin() {
 }
 
 function animate(timestamp) {
-  // Time-based movement: consistent speed on ALL devices
   if (lastTimestamp === null) lastTimestamp = timestamp;
-  const delta = Math.min(timestamp - lastTimestamp, 50); // cap at 50ms to avoid jumps
+  const delta = Math.min(timestamp - lastTimestamp, 50);
   lastTimestamp = timestamp;
 
   const container = document.getElementById('ball-container');
@@ -741,8 +724,8 @@ function animate(timestamp) {
   const minX = margin;
   const maxX = trackWidth - margin;
 
-  // speed = pixels per second
-  const pixelsPerSecond = speed * 8;
+  // speed = pixels per second, multiplier 22 for correct calibration
+  const pixelsPerSecond = speed * 22;
   const px = (pixelsPerSecond * delta) / 1000;
 
   ballX += direction * px;
