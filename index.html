@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EMDR Selbsthilfe-Tool</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #1e2030;
+    color: #d0d4e8;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ── SETUP SCREEN ── */
+  #setup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    width: 100%;
+    max-width: 520px;
+    padding: 40px 24px;
+  }
+
+  h1 {
+    font-size: 1.6rem;
+    font-weight: 300;
+    letter-spacing: 2px;
+    color: #c8cde0;
+    text-align: center;
+  }
+
+  h2 {
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #7a8099;
+    text-align: center;
+  }
+
+  /* Preset Buttons */
+  .presets {
+    display: flex;
+    gap: 16px;
+    width: 100%;
+  }
+
+  .preset-btn {
+    flex: 1;
+    padding: 20px 12px;
+    border: 1.5px solid #3a3f55;
+    border-radius: 12px;
+    background: #252838;
+    color: #c8cde0;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+  }
+
+  .preset-btn:hover { border-color: #6b7399; background: #2c3048; }
+
+  .preset-btn.active {
+    border-color: #7b9cff;
+    background: #2a3060;
+  }
+
+  .preset-btn .preset-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .preset-btn .preset-desc {
+    font-size: 0.75rem;
+    color: #7a8099;
+    line-height: 1.4;
+  }
+
+  .preset-btn.active .preset-desc { color: #a0aac8; }
+
+  /* Divider */
+  .divider {
+    width: 100%;
+    border: none;
+    border-top: 1px solid #2e3248;
+  }
+
+  /* Controls */
+  .controls { width: 100%; display: flex; flex-direction: column; gap: 20px; }
+
+  .control-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .control-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.82rem;
+    color: #7a8099;
+    letter-spacing: 0.5px;
+  }
+
+  .control-label span:last-child { color: #a0aac8; font-weight: 500; }
+
+  input[type=range] {
+    width: 100%;
+    height: 4px;
+    -webkit-appearance: none;
+    background: #3a3f55;
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: #7b9cff;
+    cursor: pointer;
+  }
+
+  /* Timer Buttons */
+  .timer-options {
+    display: flex;
+    gap: 8px;
+  }
+
+  .timer-btn {
+    flex: 1;
+    padding: 8px 4px;
+    border: 1.5px solid #3a3f55;
+    border-radius: 8px;
+    background: #252838;
+    color: #7a8099;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+  }
+
+  .timer-btn:hover { border-color: #6b7399; color: #c8cde0; }
+  .timer-btn.active { border-color: #7b9cff; background: #2a3060; color: #c8cde0; }
+
+  /* Ton Toggle */
+  .toggle-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .toggle-label { font-size: 0.82rem; color: #7a8099; }
+
+  .toggle {
+    position: relative;
+    width: 44px; height: 24px;
+    cursor: pointer;
+  }
+
+  .toggle input { opacity: 0; width: 0; height: 0; }
+
+  .toggle-slider {
+    position: absolute;
+    inset: 0;
+    background: #3a3f55;
+    border-radius: 24px;
+    transition: 0.3s;
+  }
+
+  .toggle-slider:before {
+    content: '';
+    position: absolute;
+    width: 18px; height: 18px;
+    left: 3px; top: 3px;
+    background: #7a8099;
+    border-radius: 50%;
+    transition: 0.3s;
+  }
+
+  .toggle input:checked + .toggle-slider { background: #2a3060; }
+  .toggle input:checked + .toggle-slider:before {
+    transform: translateX(20px);
+    background: #7b9cff;
+  }
+
+  /* Start Button */
+  #startBtn {
+    width: 100%;
+    padding: 18px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #4a6aff, #7b9cff);
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 20px rgba(100,130,255,0.25);
+  }
+
+  #startBtn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 28px rgba(100,130,255,0.4);
+  }
+
+  /* ── SESSION SCREEN ── */
+  #session {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #1e2030;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  #session.active { display: flex; }
+
+  #track {
+    position: relative;
+    width: 100vw;
+    height: 80vh;
+    display: flex;
+    align-items: center;
+  }
+
+  #ball-container {
+    position: absolute;
+    display: flex;
+    gap: 14px;
+    align-items: center;
+  }
+
+  .ball {
+    border-radius: 50%;
+    background: radial-gradient(circle at 38% 35%, #ffffff, #d0d8ff 60%, #a0aee0);
+    box-shadow:
+      0 0 18px 6px rgba(255,255,255,0.35),
+      0 0 40px 12px rgba(180,200,255,0.15);
+  }
+
+  /* Progress bar */
+  #progress-wrap {
+    position: fixed;
+    bottom: 0; left: 0;
+    width: 100%;
+    height: 3px;
+    background: #2a2f45;
+  }
+
+  #progress-bar {
+    height: 100%;
+    background: rgba(123,156,255,0.4);
+    width: 100%;
+    transition: width 1s linear;
+  }
+
+  /* Stop hint */
+  #stop-hint {
+    position: fixed;
+    bottom: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.7rem;
+    color: #3a3f55;
+    letter-spacing: 1px;
+    pointer-events: none;
+  }
+
+  /* ── END SCREEN ── */
+  #endscreen {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #1e2030;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    text-align: center;
+    padding: 40px;
+  }
+
+  #endscreen.active { display: flex; }
+
+  #endscreen p {
+    font-size: 1.3rem;
+    font-weight: 300;
+    color: #c8cde0;
+    letter-spacing: 1px;
+    line-height: 1.8;
+  }
+
+  #endscreen .sub {
+    font-size: 0.85rem;
+    color: #5a6080;
+    letter-spacing: 1.5px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════ SETUP ══════════ -->
+<div id="setup">
+  <div>
+    <h1>EMDR</h1>
+    <h2 style="margin-top:6px">Selbsthilfe-Tool</h2>
+  </div>
+
+  <div class="presets">
+    <button class="preset-btn active" id="presetAufloesung" onclick="selectPreset('aufloesung')">
+      <div class="preset-title">⚡ Auflösung</div>
+      <div class="preset-desc">Schnell · Negative Emotionen &amp; Körperspannungen verarbeiten</div>
+    </button>
+    <button class="preset-btn" id="presetIntegration" onclick="selectPreset('integration')">
+      <div class="preset-title">🌿 Integration</div>
+      <div class="preset-desc">Langsam · Neue Emotionen &amp; Glaubenssätze verankern</div>
+    </button>
+  </div>
+
+  <hr class="divider">
+
+  <div class="controls">
+
+    <div class="control-row">
+      <div class="control-label">
+        <span>Geschwindigkeit</span>
+        <span id="speedVal">32</span>
+      </div>
+      <input type="range" id="speedSlider" min="4" max="60" value="32"
+        oninput="document.getElementById('speedVal').textContent=this.value">
+    </div>
+
+    <div class="control-row">
+      <div class="control-label">
+        <span>Kugelgröße</span>
+        <span id="sizeVal">M</span>
+      </div>
+      <input type="range" id="sizeSlider" min="1" max="3" value="2" step="1"
+        oninput="updateSizeLabel(this.value)">
+    </div>
+
+    <div class="control-row">
+      <div class="control-label"><span>Timer</span></div>
+      <div class="timer-options">
+        <button class="timer-btn" onclick="selectTimer(15,this)">15 Sek</button>
+        <button class="timer-btn active" onclick="selectTimer(30,this)">30 Sek</button>
+        <button class="timer-btn" onclick="selectTimer(60,this)">60 Sek</button>
+        <button class="timer-btn" onclick="selectTimer(120,this)">2 Min</button>
+      </div>
+    </div>
+
+    <div class="toggle-row">
+      <span class="toggle-label">Töne</span>
+      <label class="toggle">
+        <input type="checkbox" id="soundToggle" checked>
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+
+  </div>
+
+  <button id="startBtn" onclick="startSession()">Session starten</button>
+</div>
+
+<!-- ══════════ SESSION ══════════ -->
+<div id="session" onclick="stopSession()">
+  <div id="track">
+    <div id="ball-container">
+      <div class="ball" id="ball1"></div>
+      <div class="ball" id="ball2"></div>
+    </div>
+  </div>
+  <div id="progress-wrap"><div id="progress-bar"></div></div>
+  <div id="stop-hint">Tippen zum Beenden</div>
+</div>
+
+<!-- ══════════ END SCREEN ══════════ -->
+<div id="endscreen">
+  <p>Schließe die Augen –<br>atme tief ein und aus<br>und lass alles los.</p>
+  <div class="sub">Session beendet</div>
+</div>
+
+<script>
+// ── State ──
+let timerSeconds = 30;
+let animFrame = null;
+let sessionTimer = null;
+let startTime = null;
+let totalDuration = 0;
+let ballX = 0;
+let direction = 1; // 1 = right, -1 = left
+let speed = 32;
+let ballSize = 40;
+const SIZES = { 1: 28, 2: 40, 3: 58 };
+const SIZE_LABELS = { 1: 'S', 2: 'M', 3: 'L' };
+let audioCtx = null;
+let soundOn = true;
+
+// ── Preset Selection ──
+function selectPreset(type) {
+  const speedSlider = document.getElementById('speedSlider');
+  const speedVal = document.getElementById('speedVal');
+  if (type === 'aufloesung') {
+    speedSlider.value = 32;
+    speedVal.textContent = 32;
+    document.getElementById('presetAufloesung').classList.add('active');
+    document.getElementById('presetIntegration').classList.remove('active');
+  } else {
+    speedSlider.value = 12;
+    speedVal.textContent = 12;
+    document.getElementById('presetIntegration').classList.add('active');
+    document.getElementById('presetAufloesung').classList.remove('active');
+  }
+}
+
+function updateSizeLabel(v) {
+  document.getElementById('sizeVal').textContent = SIZE_LABELS[v];
+}
+
+function selectTimer(secs, btn) {
+  timerSeconds = secs;
+  document.querySelectorAll('.timer-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ── Audio ──
+function getAudioCtx() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return audioCtx;
+}
+
+function playPing(side) {
+  if (!document.getElementById('soundToggle').checked) return;
+  try {
+    const ctx = getAudioCtx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    const panner = ctx.createStereoPanner();
+    panner.pan.value = side === 'right' ? 0.95 : -0.95;
+    osc.type = 'sine';
+    osc.frequency.value = 520;
+    gain.gain.setValueAtTime(0.22, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.18);
+    osc.connect(gain);
+    gain.connect(panner);
+    panner.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.18);
+  } catch(e) {}
+}
+
+function playEndTone() {
+  if (!document.getElementById('soundToggle').checked) return;
+  try {
+    const ctx = getAudioCtx();
+    [0, 0.25, 0.5].forEach((t, i) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = [440, 523, 659][i];
+      gain.gain.setValueAtTime(0.15, ctx.currentTime + t);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + t + 0.5);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(ctx.currentTime + t);
+      osc.stop(ctx.currentTime + t + 0.5);
+    });
+  } catch(e) {}
+}
+
+// ── Session ──
+function startSession() {
+  speed = parseInt(document.getElementById('speedSlider').value);
+  const sizeIdx = parseInt(document.getElementById('sizeSlider').value);
+  ballSize = SIZES[sizeIdx];
+
+  // Apply ball sizes
+  ['ball1','ball2'].forEach(id => {
+    const b = document.getElementById(id);
+    b.style.width = ballSize + 'px';
+    b.style.height = ballSize + 'px';
+  });
+  document.getElementById('ball-container').style.gap = Math.round(ballSize * 0.35) + 'px';
+
+  totalDuration = timerSeconds * 1000;
+  startTime = performance.now();
+  ballX = window.innerWidth / 2;
+  direction = 1;
+
+  document.getElementById('setup').style.display = 'none';
+  document.getElementById('endscreen').classList.remove('active');
+  document.getElementById('session').classList.add('active');
+  document.getElementById('progress-bar').style.width = '100%';
+
+  animate();
+
+  sessionTimer = setTimeout(() => {
+    endSession();
+  }, totalDuration);
+}
+
+function getTrackMargin() {
+  const ballGap = Math.round(ballSize * 0.35);
+  return Math.round(ballSize * 2.5 + ballGap);
+}
+
+let lastDir = 1;
+function animate() {
+  const container = document.getElementById('ball-container');
+  const trackWidth = window.innerWidth;
+  const margin = getTrackMargin();
+  const minX = margin;
+  const maxX = trackWidth - margin;
+
+  // speed: pixels per frame (roughly), map 4–60 → 2–20 px/frame
+  const px = 2 + (speed - 4) / (60 - 4) * 18;
+  ballX += direction * px;
+
+  if (ballX >= maxX) {
+    ballX = maxX;
+    if (lastDir !== -1) { playPing('right'); lastDir = -1; }
+    direction = -1;
+  }
+  if (ballX <= minX) {
+    ballX = minX;
+    if (lastDir !== 1) { playPing('left'); lastDir = 1; }
+    direction = 1;
+  }
+
+  container.style.left = (ballX - ballSize - Math.round(ballSize * 0.175)) + 'px';
+
+  // Progress bar
+  const elapsed = performance.now() - startTime;
+  const pct = Math.max(0, 100 - (elapsed / totalDuration) * 100);
+  document.getElementById('progress-bar').style.width = pct + '%';
+
+  animFrame = requestAnimationFrame(animate);
+}
+
+function stopSession() {
+  clearTimeout(sessionTimer);
+  cancelAnimationFrame(animFrame);
+  document.getElementById('session').classList.remove('active');
+  document.getElementById('setup').style.display = 'flex';
+}
+
+function endSession() {
+  cancelAnimationFrame(animFrame);
+  clearTimeout(sessionTimer);
+  document.getElementById('session').classList.remove('active');
+  playEndTone();
+
+  const end = document.getElementById('endscreen');
+  end.classList.add('active');
+
+  setTimeout(() => {
+    end.classList.remove('active');
+    document.getElementById('setup').style.display = 'flex';
+  }, 7000);
+}
+</script>
+</body>
+</html>
