@@ -4,13 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EMDR Selbsthilfe-Tool</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    background: #1e2030;
-    color: #d0d4e8;
-    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #e8e0d4;
+    color: #3d2b1f;
+    font-family: 'Playfair Display', Georgia, serif;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -23,100 +24,127 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 32px;
+    gap: 28px;
     width: 100%;
-    max-width: 520px;
-    padding: 40px 24px;
+    max-width: 780px;
+    padding: 48px 40px;
   }
 
   h1 {
-    font-size: 1.6rem;
-    font-weight: 300;
-    letter-spacing: 2px;
-    color: #c8cde0;
+    font-size: 2.2rem;
+    font-weight: 400;
+    letter-spacing: 6px;
+    color: #3d2b1f;
     text-align: center;
   }
 
   h2 {
-    font-size: 0.85rem;
+    font-size: 0.78rem;
     font-weight: 400;
-    letter-spacing: 1.5px;
+    letter-spacing: 3px;
     text-transform: uppercase;
-    color: #7a8099;
+    color: #8b5a4a;
     text-align: center;
+    font-family: 'Playfair Display', serif;
   }
 
   /* Preset Buttons */
   .presets {
     display: flex;
-    gap: 16px;
+    gap: 20px;
     width: 100%;
   }
 
   .preset-btn {
     flex: 1;
-    padding: 20px 12px;
-    border: 1.5px solid #3a3f55;
-    border-radius: 12px;
-    background: #252838;
-    color: #c8cde0;
+    padding: 22px 16px;
+    border: 1.5px solid #c9b9a8;
+    border-radius: 10px;
+    background: #f0ede8;
+    color: #3d2b1f;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.25s;
     text-align: center;
+    font-family: 'Playfair Display', serif;
   }
 
-  .preset-btn:hover { border-color: #6b7399; background: #2c3048; }
+  .preset-btn:hover {
+    border-color: #8b1a1a;
+    background: #f5f0ea;
+  }
 
   .preset-btn.active {
-    border-color: #7b9cff;
-    background: #2a3060;
+    border-color: #8b1a1a;
+    background: #8b1a1a;
+    color: #f0ede8;
+  }
+
+  .preset-btn .preset-icon {
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .preset-btn .preset-icon svg {
+    width: 22px;
+    height: 22px;
+    stroke: #8b1a1a;
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: stroke 0.25s;
+  }
+
+  .preset-btn.active .preset-icon svg {
+    stroke: #f0ede8;
   }
 
   .preset-btn .preset-title {
-    font-size: 1rem;
+    font-size: 1.05rem;
     font-weight: 600;
-    margin-bottom: 6px;
+    margin-bottom: 5px;
+    letter-spacing: 0.5px;
   }
 
   .preset-btn .preset-desc {
     font-size: 0.75rem;
-    color: #7a8099;
-    line-height: 1.4;
+    color: #8b5a4a;
+    line-height: 1.5;
+    font-weight: 400;
+    letter-spacing: 0.3px;
   }
 
-  .preset-btn.active .preset-desc { color: #a0aac8; }
+  .preset-btn.active .preset-desc { color: #e8c8b8; }
 
   /* Divider */
   .divider {
     width: 100%;
     border: none;
-    border-top: 1px solid #2e3248;
+    border-top: 1px solid #c9b9a8;
   }
 
   /* Controls */
-  .controls { width: 100%; display: flex; flex-direction: column; gap: 20px; }
+  .controls { width: 100%; display: flex; flex-direction: column; gap: 22px; }
 
-  .control-row {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
+  .control-row { display: flex; flex-direction: column; gap: 9px; }
 
   .control-label {
     display: flex;
     justify-content: space-between;
     font-size: 0.82rem;
-    color: #7a8099;
-    letter-spacing: 0.5px;
+    color: #8b5a4a;
+    letter-spacing: 1px;
+    font-family: 'Playfair Display', serif;
   }
 
-  .control-label span:last-child { color: #a0aac8; font-weight: 500; }
+  .control-label span:last-child { color: #3d2b1f; font-weight: 500; }
 
   input[type=range] {
     width: 100%;
-    height: 4px;
+    height: 3px;
     -webkit-appearance: none;
-    background: #3a3f55;
+    background: #c9b9a8;
     border-radius: 2px;
     outline: none;
     cursor: pointer;
@@ -124,33 +152,31 @@
 
   input[type=range]::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 16px; height: 16px;
+    width: 17px; height: 17px;
     border-radius: 50%;
-    background: #7b9cff;
+    background: #8b1a1a;
     cursor: pointer;
   }
 
   /* Timer Buttons */
-  .timer-options {
-    display: flex;
-    gap: 8px;
-  }
+  .timer-options { display: flex; gap: 10px; }
 
   .timer-btn {
     flex: 1;
-    padding: 8px 4px;
-    border: 1.5px solid #3a3f55;
-    border-radius: 8px;
-    background: #252838;
-    color: #7a8099;
+    padding: 9px 4px;
+    border: 1.5px solid #c9b9a8;
+    border-radius: 7px;
+    background: #f0ede8;
+    color: #8b5a4a;
     font-size: 0.8rem;
     cursor: pointer;
     transition: all 0.2s;
     text-align: center;
+    font-family: 'Playfair Display', serif;
   }
 
-  .timer-btn:hover { border-color: #6b7399; color: #c8cde0; }
-  .timer-btn.active { border-color: #7b9cff; background: #2a3060; color: #c8cde0; }
+  .timer-btn:hover { border-color: #8b1a1a; color: #3d2b1f; }
+  .timer-btn.active { border-color: #8b1a1a; background: #8b1a1a; color: #f0ede8; }
 
   /* Ton Toggle */
   .toggle-row {
@@ -159,7 +185,12 @@
     align-items: center;
   }
 
-  .toggle-label { font-size: 0.82rem; color: #7a8099; }
+  .toggle-label {
+    font-size: 0.82rem;
+    color: #8b5a4a;
+    letter-spacing: 1px;
+    font-family: 'Playfair Display', serif;
+  }
 
   .toggle {
     position: relative;
@@ -172,7 +203,7 @@
   .toggle-slider {
     position: absolute;
     inset: 0;
-    background: #3a3f55;
+    background: #c9b9a8;
     border-radius: 24px;
     transition: 0.3s;
   }
@@ -182,15 +213,14 @@
     position: absolute;
     width: 18px; height: 18px;
     left: 3px; top: 3px;
-    background: #7a8099;
+    background: #f0ede8;
     border-radius: 50%;
     transition: 0.3s;
   }
 
-  .toggle input:checked + .toggle-slider { background: #2a3060; }
+  .toggle input:checked + .toggle-slider { background: #8b1a1a; }
   .toggle input:checked + .toggle-slider:before {
     transform: translateX(20px);
-    background: #7b9cff;
   }
 
   /* Start Button */
@@ -198,20 +228,23 @@
     width: 100%;
     padding: 18px;
     border: none;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #4a6aff, #7b9cff);
-    color: #fff;
-    font-size: 1.1rem;
+    border-radius: 10px;
+    background: #8b1a1a;
+    color: #f0ede8;
+    font-size: 1rem;
     font-weight: 600;
-    letter-spacing: 1px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
     cursor: pointer;
-    transition: all 0.2s;
-    box-shadow: 0 4px 20px rgba(100,130,255,0.25);
+    transition: all 0.25s;
+    font-family: 'Playfair Display', serif;
+    box-shadow: 0 4px 20px rgba(139,26,26,0.2);
   }
 
   #startBtn:hover {
+    background: #6e1414;
     transform: translateY(-1px);
-    box-shadow: 0 6px 28px rgba(100,130,255,0.4);
+    box-shadow: 0 6px 28px rgba(139,26,26,0.3);
   }
 
   /* ── SESSION SCREEN ── */
@@ -219,7 +252,7 @@
     display: none;
     position: fixed;
     inset: 0;
-    background: #1e2030;
+    background: #1a1210;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -245,10 +278,10 @@
 
   .ball {
     border-radius: 50%;
-    background: radial-gradient(circle at 38% 35%, #ffffff, #d0d8ff 60%, #a0aee0);
+    background: radial-gradient(circle at 38% 35%, #ffffff, #f0e8e0 60%, #d4c0b0);
     box-shadow:
-      0 0 18px 6px rgba(255,255,255,0.35),
-      0 0 40px 12px rgba(180,200,255,0.15);
+      0 0 18px 6px rgba(255,255,255,0.3),
+      0 0 40px 12px rgba(220,190,170,0.12);
   }
 
   /* Progress bar */
@@ -257,12 +290,12 @@
     bottom: 0; left: 0;
     width: 100%;
     height: 3px;
-    background: #2a2f45;
+    background: #2a1a14;
   }
 
   #progress-bar {
     height: 100%;
-    background: rgba(123,156,255,0.4);
+    background: rgba(139,26,26,0.5);
     width: 100%;
     transition: width 1s linear;
   }
@@ -273,10 +306,12 @@
     bottom: 14px;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 0.7rem;
-    color: #3a3f55;
-    letter-spacing: 1px;
+    font-size: 0.65rem;
+    color: #3a2018;
+    letter-spacing: 2px;
     pointer-events: none;
+    font-family: 'Playfair Display', serif;
+    text-transform: uppercase;
   }
 
   /* ── END SCREEN ── */
@@ -284,11 +319,11 @@
     display: none;
     position: fixed;
     inset: 0;
-    background: #1e2030;
+    background: #e8e0d4;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 20px;
+    gap: 16px;
     text-align: center;
     padding: 40px;
   }
@@ -296,17 +331,28 @@
   #endscreen.active { display: flex; }
 
   #endscreen p {
-    font-size: 1.3rem;
-    font-weight: 300;
-    color: #c8cde0;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: #3d2b1f;
     letter-spacing: 1px;
-    line-height: 1.8;
+    line-height: 2;
+    font-family: 'Playfair Display', serif;
   }
 
   #endscreen .sub {
-    font-size: 0.85rem;
-    color: #5a6080;
-    letter-spacing: 1.5px;
+    font-size: 0.72rem;
+    color: #8b5a4a;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-family: 'Playfair Display', serif;
+  }
+
+  /* thin ornament line */
+  #endscreen .ornament {
+    width: 60px;
+    height: 1px;
+    background: #c9b9a8;
+    margin: 4px auto;
   }
 </style>
 </head>
@@ -314,19 +360,33 @@
 
 <!-- ══════════ SETUP ══════════ -->
 <div id="setup">
-  <div>
+  <div style="text-align:center">
     <h1>EMDR</h1>
-    <h2 style="margin-top:6px">Selbsthilfe-Tool</h2>
+    <h2 style="margin-top:8px">Selbsthilfe-Tool</h2>
   </div>
 
   <div class="presets">
+    <!-- Auflösung: dynamic arrows SVG -->
     <button class="preset-btn active" id="presetAufloesung" onclick="selectPreset('aufloesung')">
-      <div class="preset-title">⚡ Auflösung</div>
-      <div class="preset-desc">Schnell · Negative Emotionen &amp; Körperspannungen verarbeiten</div>
+      <div class="preset-icon">
+        <svg viewBox="0 0 24 24">
+          <path d="M5 12h14M15 8l4 4-4 4M9 8L5 12l4 4"/>
+        </svg>
+      </div>
+      <div class="preset-title">Auflösung</div>
+      <div class="preset-desc">Schnell · Negative Emotionen &amp;<br>Körperspannungen verarbeiten</div>
     </button>
+
+    <!-- Integration: calm circle/spiral SVG -->
     <button class="preset-btn" id="presetIntegration" onclick="selectPreset('integration')">
-      <div class="preset-title">🌿 Integration</div>
-      <div class="preset-desc">Langsam · Neue Emotionen &amp; Glaubenssätze verankern</div>
+      <div class="preset-icon">
+        <svg viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="8"/>
+          <path d="M12 8v4l3 3"/>
+        </svg>
+      </div>
+      <div class="preset-title">Integration</div>
+      <div class="preset-desc">Langsam · Neue Emotionen &amp;<br>Glaubenssätze verankern</div>
     </button>
   </div>
 
@@ -337,9 +397,9 @@
     <div class="control-row">
       <div class="control-label">
         <span>Geschwindigkeit</span>
-        <span id="speedVal">32</span>
+        <span id="speedVal">52</span>
       </div>
-      <input type="range" id="speedSlider" min="4" max="60" value="32"
+      <input type="range" id="speedSlider" min="4" max="80" value="52"
         oninput="document.getElementById('speedVal').textContent=this.value">
     </div>
 
@@ -390,32 +450,30 @@
 <!-- ══════════ END SCREEN ══════════ -->
 <div id="endscreen">
   <p>Schließe die Augen –<br>atme tief ein und aus<br>und lass alles los.</p>
+  <div class="ornament"></div>
   <div class="sub">Session beendet</div>
 </div>
 
 <script>
-// ── State ──
 let timerSeconds = 30;
 let animFrame = null;
 let sessionTimer = null;
 let startTime = null;
 let totalDuration = 0;
 let ballX = 0;
-let direction = 1; // 1 = right, -1 = left
-let speed = 32;
+let direction = 1;
+let speed = 52;
 let ballSize = 40;
 const SIZES = { 1: 28, 2: 40, 3: 58 };
 const SIZE_LABELS = { 1: 'S', 2: 'M', 3: 'L' };
 let audioCtx = null;
-let soundOn = true;
 
-// ── Preset Selection ──
 function selectPreset(type) {
   const speedSlider = document.getElementById('speedSlider');
   const speedVal = document.getElementById('speedVal');
   if (type === 'aufloesung') {
-    speedSlider.value = 32;
-    speedVal.textContent = 32;
+    speedSlider.value = 52;
+    speedVal.textContent = 52;
     document.getElementById('presetAufloesung').classList.add('active');
     document.getElementById('presetIntegration').classList.remove('active');
   } else {
@@ -436,7 +494,6 @@ function selectTimer(secs, btn) {
   btn.classList.add('active');
 }
 
-// ── Audio ──
 function getAudioCtx() {
   if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   return audioCtx;
@@ -451,14 +508,14 @@ function playPing(side) {
     const panner = ctx.createStereoPanner();
     panner.pan.value = side === 'right' ? 0.95 : -0.95;
     osc.type = 'sine';
-    osc.frequency.value = 520;
-    gain.gain.setValueAtTime(0.22, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.18);
+    osc.frequency.value = 480;
+    gain.gain.setValueAtTime(0.18, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
     osc.connect(gain);
     gain.connect(panner);
     panner.connect(ctx.destination);
     osc.start();
-    osc.stop(ctx.currentTime + 0.18);
+    osc.stop(ctx.currentTime + 0.2);
   } catch(e) {}
 }
 
@@ -466,28 +523,26 @@ function playEndTone() {
   if (!document.getElementById('soundToggle').checked) return;
   try {
     const ctx = getAudioCtx();
-    [0, 0.25, 0.5].forEach((t, i) => {
+    [0, 0.3, 0.6].forEach((t, i) => {
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
       osc.type = 'sine';
-      osc.frequency.value = [440, 523, 659][i];
-      gain.gain.setValueAtTime(0.15, ctx.currentTime + t);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + t + 0.5);
+      osc.frequency.value = [392, 466, 523][i];
+      gain.gain.setValueAtTime(0.13, ctx.currentTime + t);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + t + 0.6);
       osc.connect(gain);
       gain.connect(ctx.destination);
       osc.start(ctx.currentTime + t);
-      osc.stop(ctx.currentTime + t + 0.5);
+      osc.stop(ctx.currentTime + t + 0.6);
     });
   } catch(e) {}
 }
 
-// ── Session ──
 function startSession() {
   speed = parseInt(document.getElementById('speedSlider').value);
   const sizeIdx = parseInt(document.getElementById('sizeSlider').value);
   ballSize = SIZES[sizeIdx];
 
-  // Apply ball sizes
   ['ball1','ball2'].forEach(id => {
     const b = document.getElementById(id);
     b.style.width = ballSize + 'px';
@@ -499,6 +554,7 @@ function startSession() {
   startTime = performance.now();
   ballX = window.innerWidth / 2;
   direction = 1;
+  lastDir = 1;
 
   document.getElementById('setup').style.display = 'none';
   document.getElementById('endscreen').classList.remove('active');
@@ -506,15 +562,11 @@ function startSession() {
   document.getElementById('progress-bar').style.width = '100%';
 
   animate();
-
-  sessionTimer = setTimeout(() => {
-    endSession();
-  }, totalDuration);
+  sessionTimer = setTimeout(endSession, totalDuration);
 }
 
 function getTrackMargin() {
-  const ballGap = Math.round(ballSize * 0.35);
-  return Math.round(ballSize * 2.5 + ballGap);
+  return Math.round(ballSize * 2.5 + Math.round(ballSize * 0.35));
 }
 
 let lastDir = 1;
@@ -524,9 +576,8 @@ function animate() {
   const margin = getTrackMargin();
   const minX = margin;
   const maxX = trackWidth - margin;
+  const px = 2 + (speed - 4) / (80 - 4) * 26;
 
-  // speed: pixels per frame (roughly), map 4–60 → 2–20 px/frame
-  const px = 2 + (speed - 4) / (60 - 4) * 18;
   ballX += direction * px;
 
   if (ballX >= maxX) {
@@ -542,7 +593,6 @@ function animate() {
 
   container.style.left = (ballX - ballSize - Math.round(ballSize * 0.175)) + 'px';
 
-  // Progress bar
   const elapsed = performance.now() - startTime;
   const pct = Math.max(0, 100 - (elapsed / totalDuration) * 100);
   document.getElementById('progress-bar').style.width = pct + '%';
@@ -562,10 +612,8 @@ function endSession() {
   clearTimeout(sessionTimer);
   document.getElementById('session').classList.remove('active');
   playEndTone();
-
   const end = document.getElementById('endscreen');
   end.classList.add('active');
-
   setTimeout(() => {
     end.classList.remove('active');
     document.getElementById('setup').style.display = 'flex';
