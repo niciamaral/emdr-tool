@@ -19,6 +19,49 @@
     justify-content: center;
   }
 
+  /* ── DEVICE SWITCHER ── */
+  #device-switcher {
+    position: fixed;
+    top: 16px;
+    right: 20px;
+    display: flex;
+    gap: 6px;
+    z-index: 100;
+  }
+
+  .device-btn {
+    width: 36px;
+    height: 36px;
+    border: 1.5px solid #c9b9a8;
+    border-radius: 8px;
+    background: #f0ede8;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+
+  .device-btn:hover { border-color: #8b1a1a; }
+
+  .device-btn.active {
+    border-color: #8b1a1a;
+    background: #8b1a1a;
+  }
+
+  .device-btn svg {
+    width: 18px;
+    height: 18px;
+    stroke: #8b5a4a;
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: stroke 0.2s;
+  }
+
+  .device-btn.active svg { stroke: #f0ede8; }
+
   /* ── SETUP SCREEN ── */
   #setup {
     display: flex;
@@ -26,9 +69,12 @@
     align-items: center;
     gap: 28px;
     width: 100%;
-    max-width: 780px;
     padding: 48px 40px;
+    transition: max-width 0.3s ease;
   }
+
+  body.desktop #setup { max-width: 780px; }
+  body.mobile #setup  { max-width: 420px; padding: 40px 20px; }
 
   h1 {
     font-size: 2.2rem;
@@ -38,6 +84,8 @@
     text-align: center;
   }
 
+  body.mobile h1 { font-size: 1.7rem; letter-spacing: 4px; }
+
   h2 {
     font-size: 0.78rem;
     font-weight: 400;
@@ -45,7 +93,6 @@
     text-transform: uppercase;
     color: #8b5a4a;
     text-align: center;
-    font-family: 'Playfair Display', serif;
   }
 
   /* Preset Buttons */
@@ -54,6 +101,8 @@
     gap: 20px;
     width: 100%;
   }
+
+  body.mobile .presets { flex-direction: column; gap: 12px; }
 
   .preset-btn {
     flex: 1;
@@ -68,16 +117,15 @@
     font-family: 'Playfair Display', serif;
   }
 
-  .preset-btn:hover {
-    border-color: #8b1a1a;
-    background: #f5f0ea;
-  }
+  .preset-btn:hover { border-color: #8b1a1a; background: #f5f0ea; }
 
   .preset-btn.active {
     border-color: #8b1a1a;
     background: #8b1a1a;
     color: #f0ede8;
   }
+
+  body.mobile .preset-btn { padding: 16px 14px; }
 
   .preset-btn .preset-icon {
     margin-bottom: 8px;
@@ -86,8 +134,7 @@
   }
 
   .preset-btn .preset-icon svg {
-    width: 22px;
-    height: 22px;
+    width: 22px; height: 22px;
     stroke: #8b1a1a;
     fill: none;
     stroke-width: 1.8;
@@ -96,9 +143,7 @@
     transition: stroke 0.25s;
   }
 
-  .preset-btn.active .preset-icon svg {
-    stroke: #f0ede8;
-  }
+  .preset-btn.active .preset-icon svg { stroke: #f0ede8; }
 
   .preset-btn .preset-title {
     font-size: 1.05rem;
@@ -106,6 +151,8 @@
     margin-bottom: 5px;
     letter-spacing: 0.5px;
   }
+
+  body.mobile .preset-btn .preset-title { font-size: 0.95rem; }
 
   .preset-btn .preset-desc {
     font-size: 0.75rem;
@@ -118,11 +165,7 @@
   .preset-btn.active .preset-desc { color: #e8c8b8; }
 
   /* Divider */
-  .divider {
-    width: 100%;
-    border: none;
-    border-top: 1px solid #c9b9a8;
-  }
+  .divider { width: 100%; border: none; border-top: 1px solid #c9b9a8; }
 
   /* Controls */
   .controls { width: 100%; display: flex; flex-direction: column; gap: 22px; }
@@ -135,7 +178,6 @@
     font-size: 0.82rem;
     color: #8b5a4a;
     letter-spacing: 1px;
-    font-family: 'Playfair Display', serif;
   }
 
   .control-label span:last-child { color: #3d2b1f; font-weight: 500; }
@@ -158,6 +200,10 @@
     cursor: pointer;
   }
 
+  body.mobile input[type=range]::-webkit-slider-thumb {
+    width: 22px; height: 22px;
+  }
+
   /* Timer Buttons */
   .timer-options { display: flex; gap: 10px; }
 
@@ -175,6 +221,8 @@
     font-family: 'Playfair Display', serif;
   }
 
+  body.mobile .timer-btn { padding: 12px 4px; font-size: 0.85rem; }
+
   .timer-btn:hover { border-color: #8b1a1a; color: #3d2b1f; }
   .timer-btn.active { border-color: #8b1a1a; background: #8b1a1a; color: #f0ede8; }
 
@@ -189,7 +237,6 @@
     font-size: 0.82rem;
     color: #8b5a4a;
     letter-spacing: 1px;
-    font-family: 'Playfair Display', serif;
   }
 
   .toggle {
@@ -219,9 +266,7 @@
   }
 
   .toggle input:checked + .toggle-slider { background: #8b1a1a; }
-  .toggle input:checked + .toggle-slider:before {
-    transform: translateX(20px);
-  }
+  .toggle input:checked + .toggle-slider:before { transform: translateX(20px); }
 
   /* Start Button */
   #startBtn {
@@ -241,10 +286,36 @@
     box-shadow: 0 4px 20px rgba(139,26,26,0.2);
   }
 
+  body.mobile #startBtn { padding: 20px; font-size: 1rem; }
+
   #startBtn:hover {
     background: #6e1414;
     transform: translateY(-1px);
     box-shadow: 0 6px 28px rgba(139,26,26,0.3);
+  }
+
+  /* ── ROTATE HINT ── */
+  #rotate-hint {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.7rem;
+    color: #8b5a4a;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-top: -10px;
+  }
+
+  body.mobile #rotate-hint { display: flex; }
+
+  #rotate-hint svg {
+    width: 16px; height: 16px;
+    stroke: #8b5a4a;
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex-shrink: 0;
   }
 
   /* ── SESSION SCREEN ── */
@@ -284,7 +355,6 @@
       0 0 40px 12px rgba(220,190,170,0.12);
   }
 
-  /* Progress bar */
   #progress-wrap {
     position: fixed;
     bottom: 0; left: 0;
@@ -300,7 +370,6 @@
     transition: width 1s linear;
   }
 
-  /* Stop hint */
   #stop-hint {
     position: fixed;
     bottom: 14px;
@@ -312,6 +381,7 @@
     pointer-events: none;
     font-family: 'Playfair Display', serif;
     text-transform: uppercase;
+    white-space: nowrap;
   }
 
   /* ── END SCREEN ── */
@@ -339,15 +409,15 @@
     font-family: 'Playfair Display', serif;
   }
 
+  body.mobile #endscreen p { font-size: 1.2rem; }
+
   #endscreen .sub {
     font-size: 0.72rem;
     color: #8b5a4a;
     letter-spacing: 3px;
     text-transform: uppercase;
-    font-family: 'Playfair Display', serif;
   }
 
-  /* thin ornament line */
   #endscreen .ornament {
     width: 60px;
     height: 1px;
@@ -356,7 +426,25 @@
   }
 </style>
 </head>
-<body>
+<body class="desktop">
+
+<!-- ── DEVICE SWITCHER ── -->
+<div id="device-switcher">
+  <!-- Desktop icon -->
+  <button class="device-btn active" id="btnDesktop" onclick="setMode('desktop')" title="Desktop-Ansicht">
+    <svg viewBox="0 0 24 24">
+      <rect x="2" y="3" width="20" height="14" rx="2"/>
+      <path d="M8 21h8M12 17v4"/>
+    </svg>
+  </button>
+  <!-- Mobile icon -->
+  <button class="device-btn" id="btnMobile" onclick="setMode('mobile')" title="Handy-Ansicht">
+    <svg viewBox="0 0 24 24">
+      <rect x="7" y="2" width="10" height="20" rx="2"/>
+      <circle cx="12" cy="18" r="1" fill="#8b5a4a" stroke="none"/>
+    </svg>
+  </button>
+</div>
 
 <!-- ══════════ SETUP ══════════ -->
 <div id="setup">
@@ -366,24 +454,16 @@
   </div>
 
   <div class="presets">
-    <!-- Auflösung: dynamic arrows SVG -->
     <button class="preset-btn active" id="presetAufloesung" onclick="selectPreset('aufloesung')">
       <div class="preset-icon">
-        <svg viewBox="0 0 24 24">
-          <path d="M5 12h14M15 8l4 4-4 4M9 8L5 12l4 4"/>
-        </svg>
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M15 8l4 4-4 4M9 8L5 12l4 4"/></svg>
       </div>
       <div class="preset-title">Auflösung</div>
       <div class="preset-desc">Schnell · Negative Emotionen &amp;<br>Körperspannungen verarbeiten</div>
     </button>
-
-    <!-- Integration: calm circle/spiral SVG -->
     <button class="preset-btn" id="presetIntegration" onclick="selectPreset('integration')">
       <div class="preset-icon">
-        <svg viewBox="0 0 24 24">
-          <circle cx="12" cy="12" r="8"/>
-          <path d="M12 8v4l3 3"/>
-        </svg>
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 3"/></svg>
       </div>
       <div class="preset-title">Integration</div>
       <div class="preset-desc">Langsam · Neue Emotionen &amp;<br>Glaubenssätze verankern</div>
@@ -393,7 +473,6 @@
   <hr class="divider">
 
   <div class="controls">
-
     <div class="control-row">
       <div class="control-label">
         <span>Geschwindigkeit</span>
@@ -429,7 +508,18 @@
         <span class="toggle-slider"></span>
       </label>
     </div>
+  </div>
 
+  <!-- Rotate hint – only visible in mobile mode -->
+  <div id="rotate-hint">
+    <svg viewBox="0 0 24 24">
+      <path d="M4 12a8 8 0 0 1 8-8"/>
+      <path d="M20 12a8 8 0 0 1-8 8"/>
+      <path d="M4 12l-2-2 2-2"/>
+      <path d="M20 12l2 2-2 2"/>
+      <rect x="9" y="7" width="6" height="10" rx="1"/>
+    </svg>
+    Handy bitte querhalten für beste Erfahrung
   </div>
 
   <button id="startBtn" onclick="startSession()">Session starten</button>
@@ -467,18 +557,29 @@ let ballSize = 40;
 const SIZES = { 1: 28, 2: 40, 3: 58 };
 const SIZE_LABELS = { 1: 'S', 2: 'M', 3: 'L' };
 let audioCtx = null;
+let lastDir = 1;
+
+// ── Auto-detect device on load ──
+window.addEventListener('load', () => {
+  const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) || window.innerWidth < 600;
+  setMode(isMobile ? 'mobile' : 'desktop');
+});
+
+function setMode(mode) {
+  document.body.className = mode;
+  document.getElementById('btnDesktop').classList.toggle('active', mode === 'desktop');
+  document.getElementById('btnMobile').classList.toggle('active', mode === 'mobile');
+}
 
 function selectPreset(type) {
   const speedSlider = document.getElementById('speedSlider');
   const speedVal = document.getElementById('speedVal');
   if (type === 'aufloesung') {
-    speedSlider.value = 52;
-    speedVal.textContent = 52;
+    speedSlider.value = 52; speedVal.textContent = 52;
     document.getElementById('presetAufloesung').classList.add('active');
     document.getElementById('presetIntegration').classList.remove('active');
   } else {
-    speedSlider.value = 12;
-    speedVal.textContent = 12;
+    speedSlider.value = 12; speedVal.textContent = 12;
     document.getElementById('presetIntegration').classList.add('active');
     document.getElementById('presetAufloesung').classList.remove('active');
   }
@@ -569,7 +670,6 @@ function getTrackMargin() {
   return Math.round(ballSize * 2.5 + Math.round(ballSize * 0.35));
 }
 
-let lastDir = 1;
 function animate() {
   const container = document.getElementById('ball-container');
   const trackWidth = window.innerWidth;
